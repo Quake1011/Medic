@@ -1,6 +1,5 @@
 # Medic
-Allows you to refill your health
-A rewritten version of the [plugin](https://forums.alliedmods.net/showthread.php?p=886430) for the CS2 game on C#
+Allows you to refill your health. A rewritten version of the [plugin](https://forums.alliedmods.net/showthread.php?p=886430) for the CS2 game on C#
 
 ## Requirements
 - [Metamod](https://www.sourcemm.net/downloads.php/?branch=master)
