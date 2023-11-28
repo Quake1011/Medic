@@ -6,7 +6,7 @@ Allows you to refill your health. A rewritten version of the [plugin](https://fo
 - [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v78) >= v78
 
 ## Install
-- Move the contents of folder `build/` to `addons/counterstrikesharp/plugins/`
+- Move the contents of folder `build/` to `addons/counterstrikesharp/plugins/medic`
 - Configuration file will be generated after the plugin is launched in the folder `addons/counterstrikesharp/configs/plugins/medic`
 	
 ### Config.json
@@ -15,6 +15,7 @@ Allows you to refill your health. A rewritten version of the [plugin](https://fo
  - **Cost** - the price of using a medic
  - **ShowCall** - show everyone in the chat that the player used a medic [true / false]
  - **MaxUse** - number of heal uses per round
+ - **AccessFlag** - access flag for to use commands
 
 ## About possible problems, please let me know: 
 [<img src="https://i.ibb.co/LJz83MH/a681b18dd681f38e599286a07a92225d.png" width="15.3%"/>](https://discordapp.com/users/858709381088935976/)
