@@ -7,9 +7,9 @@ Allows you to refill your health. A rewritten version of the [plugin](https://fo
 
 ## Install
 - Move the contents of folder `build/` to `addons/counterstrikesharp/plugins/medic`
-- Configuration file will be generated after the plugin is launched in the folder `addons/counterstrikesharp/configs/plugins/medic`
+- Configuration file will be generated after the plugin is launched in the folder `addons/counterstrikesharp/configs/plugins/medic/medic.json`
 	
-### Config
+### medic.json
  - **MinHealth** - minimum HP, for the use of a medic
  - **Healthhealth** - HP that will be restored after use
  - **Cost** - the price of using a medic
