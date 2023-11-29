@@ -28,15 +28,18 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
     public ConfigGen Config { get; set; } = null!;
     public void OnConfigParsed(ConfigGen config) { Config = config; }
 
-    private int[]? _tries;
-    
+    private Dictionary<CCSPlayerController, int> _tries = new();
+
     public override void Load(bool hotReload) { RegisterEventHandler<EventRoundStart>(OnRoundStart); }
 
     [GameEventHandler(mode: HookMode.Post)]
     private HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)
     {
-        _tries ??= null;
-        _tries = Enumerable.Repeat(Config.MaxUse, Server.MaxPlayers).ToArray();
+        _tries.Clear();
+        
+        foreach (var player in Utilities.GetPlayers())
+            _tries.Add(player, Config.MaxUse);
+
         return HookResult.Continue;
     }
 
@@ -47,12 +50,9 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
     [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
     public void OnCommand(CCSPlayerController? activator, CommandInfo command)
     {
-        if (activator == null || activator.PawnIsAlive) 
+        if (activator == null || !activator.PawnIsAlive) 
 			return;
-
-        if (_tries == null)
-            return;
-
+        
         if (Config.AccessFlag != "")
         {
             if (!AdminManager.PlayerHasPermissions(activator, Config.AccessFlag))
@@ -61,8 +61,8 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
                 return;
             }
         }
-        
-        if (_tries[activator.EntityIndex!.Value.Value - 1] <= 0)
+
+        if (_tries[activator] <= 0)
         {
             activator.PrintToChat($" {ChatColors.Red}[Medic] {ChatColors.Default}The limit has been reached. Total: {ChatColors.Red}{Config.MaxUse}");
             return;
@@ -74,21 +74,27 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
             return;
         }
 
-        if (activator.Health < Config.MinHealth)
+        if (activator.PlayerPawn.Value.Health < Config.MinHealth)
         {
             activator.PrintToChat($" {ChatColors.Red}[Medic] {ChatColors.Default}Too little health for to use medic. Need: {ChatColors.Red}{Config.MinHealth}hp");
             return;
         }
         
+        if (activator.PlayerPawn.Value.Health == activator.PlayerPawn.Value.MaxHealth)
+        {
+            activator.PrintToChat($" {ChatColors.Red}[Medic] {ChatColors.Default}You are have full hp already");
+            return;
+        }
+
         activator.InGameMoneyServices.Account -= Config.Cost;
 
-        var total = (activator.MaxHealth >= activator.Health + Config.HealHealth)
+        var total = (activator.PlayerPawn.Value.MaxHealth >= activator.PlayerPawn.Value.Health + Config.HealHealth)
             ? Config.HealHealth
-            : activator.MaxHealth - activator.Health;
+            : activator.PlayerPawn.Value.MaxHealth - activator.PlayerPawn.Value.Health;
 
-        activator.Health += total;
-                    
-        _tries[activator.EntityIndex!.Value.Value - 1]--;
+        activator.PlayerPawn.Value.Health += total;
+        
+        _tries[activator]--;
 		
         if (Config.ShowCall)
             Server.PrintToChatAll($" {ChatColors.Red}[Medic] {ChatColors.Default}Player {ChatColors.Green}{activator.PlayerName}{ChatColors.Default} used medic and restore {ChatColors.Red}{total}hp");
