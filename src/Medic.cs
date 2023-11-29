@@ -15,7 +15,7 @@ public class ConfigGen : BasePluginConfig
     [JsonPropertyName("HealHealth")] public int HealHealth { get; set; } = 100;
     [JsonPropertyName("Cost")] public int Cost { get; set; } = 2000;
     [JsonPropertyName("ShowCall")] public bool ShowCall { get; set; } = true;
-    [JsonPropertyName("MaxUse")] public int MaxUse { get; set; } = 1;
+    [JsonPropertyName("MaxUse")] public int MaxUse { get; set; } = 2;
     [JsonPropertyName("AccessFlag")] public string AccessFlag { get; set; } = "@css/ban";
 }
 
@@ -74,9 +74,9 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
             return;
         }
 
-        if (activator.PlayerPawn.Value.Health < Config.MinHealth)
+        if (activator.PlayerPawn.Value.Health > Config.MinHealth)
         {
-            activator.PrintToChat($" {ChatColors.Red}[Medic] {ChatColors.Default}Too little health for to use medic. Need: {ChatColors.Red}{Config.MinHealth}hp");
+            activator.PrintToChat($" {ChatColors.Red}[Medic] {ChatColors.Default}Too much health for to use medic. Need: {ChatColors.Red}{Config.MinHealth}hp or less");
             return;
         }
         

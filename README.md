@@ -15,7 +15,7 @@ Allows you to refill your health. A rewritten version of the [plugin](https://fo
  - **Cost** - the price of using a medic
  - **ShowCall** - show everyone in the chat that the player used a medic [true / false]
  - **MaxUse** - number of heal uses per round
- - **AccessFlag** - access flag for to use commands
+ - **AccessFlag** - access flag for to use commands. Set empty to allow for all
 
 ## About possible problems, please let me know: 
 [<img src="https://i.ibb.co/LJz83MH/a681b18dd681f38e599286a07a92225d.png" width="15.3%"/>](https://discordapp.com/users/858709381088935976/)
