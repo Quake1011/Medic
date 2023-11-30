@@ -74,13 +74,13 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
             return;
         }
 
-        if (activator.PlayerPawn.Value.Health > Config.MinHealth)
+        if (activator.PlayerPawn.Value != null && activator.PlayerPawn.Value.Health > Config.MinHealth)
         {
             activator.PrintToChat($" {ChatColors.Red}[Medic] {ChatColors.Default}Too much health for to use medic. Need: {ChatColors.Red}{Config.MinHealth}hp or less");
             return;
         }
         
-        if (activator.PlayerPawn.Value.Health == activator.PlayerPawn.Value.MaxHealth)
+        if (activator.PlayerPawn.Value != null && activator.PlayerPawn.Value.Health == activator.PlayerPawn.Value.MaxHealth)
         {
             activator.PrintToChat($" {ChatColors.Red}[Medic] {ChatColors.Default}You are have full hp already");
             return;
@@ -88,9 +88,9 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
 
         activator.InGameMoneyServices.Account -= Config.Cost;
 
-        var total = (activator.PlayerPawn.Value.MaxHealth >= activator.PlayerPawn.Value.Health + Config.HealHealth)
+        var total = activator.PlayerPawn.Value != null && (activator.PlayerPawn.Value.MaxHealth >= activator.PlayerPawn.Value.Health + Config.HealHealth)
             ? Config.HealHealth
-            : activator.PlayerPawn.Value.MaxHealth - activator.PlayerPawn.Value.Health;
+            : activator.PlayerPawn.Value!.MaxHealth - activator.PlayerPawn.Value.Health;
 
         activator.PlayerPawn.Value.Health += total;
         
