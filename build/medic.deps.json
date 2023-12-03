@@ -8,13 +8,13 @@
     ".NETCoreApp,Version=v7.0": {
       "medic/1.0.0": {
         "dependencies": {
-          "CounterStrikeSharp.API": "1.0.84"
+          "CounterStrikeSharp.API": "1.0.90"
         },
         "runtime": {
           "medic.dll": {}
         }
       },
-      "CounterStrikeSharp.API/1.0.84": {
+      "CounterStrikeSharp.API/1.0.90": {
         "dependencies": {
           "McMaster.NETCore.Plugins": "1.4.0",
           "Microsoft.CSharp": "4.7.0",
@@ -29,8 +29,8 @@
         },
         "runtime": {
           "lib/net7.0/CounterStrikeSharp.API.dll": {
-            "assemblyVersion": "1.0.84.0",
-            "fileVersion": "1.0.84.0"
+            "assemblyVersion": "1.0.90.0",
+            "fileVersion": "1.0.90.0"
           }
         }
       },
@@ -496,12 +496,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "CounterStrikeSharp.API/1.0.84": {
+    "CounterStrikeSharp.API/1.0.90": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-MVfpY5Q1Et2DJhc9dF/2y7CSTc5lgA8eBTrzJGDlH4o76ZtSV2HXCWjd0tiViWbBbwo/u079jS9u7BI49W1Jjg==",
-      "path": "counterstrikesharp.api/1.0.84",
-      "hashPath": "counterstrikesharp.api.1.0.84.nupkg.sha512"
+      "sha512": "sha512-4nMpeQixBjzDUk1c1NvhD8+9hYFVelkZ/WtLLLQl8p+iO02NWr5KtAwsU21sFLiKI6AHWlZH5Ut9tQUyIYMKlg==",
+      "path": "counterstrikesharp.api/1.0.90",
+      "hashPath": "counterstrikesharp.api.1.0.90.nupkg.sha512"
     },
     "McMaster.NETCore.Plugins/1.4.0": {
       "type": "package",
