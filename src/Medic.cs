@@ -12,35 +12,38 @@ namespace medic;
 
 public class ConfigGen : BasePluginConfig
 {
-    [JsonPropertyName("MinHealth")] public int MinHealth { get; set; } = 40;
-    [JsonPropertyName("HealHealth")] public int HealHealth { get; set; } = 100;
-    [JsonPropertyName("Cost")] public int Cost { get; set; } = 2000;
-    [JsonPropertyName("ShowCall")] public bool ShowCall { get; set; } = true;
-    [JsonPropertyName("MaxUse")] public int MaxUse { get; set; } = 2;
-    [JsonPropertyName("AccessFlag")] public string AccessFlag { get; set; } = "@css/ban";
+    [JsonPropertyName("MinHealth")] public int MinHealth { get; init; } = 40;
+    [JsonPropertyName("HealHealth")] public int HealHealth { get; init; } = 100;
+    [JsonPropertyName("Cost")] public int Cost { get; init; } = 2000;
+    [JsonPropertyName("ShowCall")] public bool ShowCall { get; init; } = true;
+    [JsonPropertyName("MaxUse")] public int MaxUse { get; init; } = 2;
+    [JsonPropertyName("AccessFlag")] public string AccessFlag { get; init; } = "@css/ban";
 }
 
-[MinimumApiVersion(90)]
+[MinimumApiVersion(130)]
 public class Medic : BasePlugin, IPluginConfig<ConfigGen>
 {
     public override string ModuleName => "Medic";
-    public override string ModuleVersion => "0.0.3";
+    public override string ModuleVersion => "0.0.5";
     public override string ModuleAuthor => "Quake1011";
     public ConfigGen Config { get; set; } = null!;
-    public void OnConfigParsed(ConfigGen config) { Config = config; }
 
-    public static Dictionary<string, List<ItemDefinition>> SlotByWeapon = new()
+    public void OnConfigParsed(ConfigGen config)
     {
-        { "1", new List<ItemDefinition> { ItemDefinition.AWP, ItemDefinition.AK_47, ItemDefinition.M4A4, ItemDefinition.M4A1_S, ItemDefinition.FAMAS, ItemDefinition.GALIL_AR, ItemDefinition.SSG_08, ItemDefinition.AUG, ItemDefinition.SG_553, ItemDefinition.NOVA, ItemDefinition.SAWED_OFF, ItemDefinition.XM1014, ItemDefinition.PP_BIZON, ItemDefinition.MAG_7, ItemDefinition.UMP_45, ItemDefinition.P90, ItemDefinition.MP5_SD } },
-        { "2", new List<ItemDefinition> { ItemDefinition.DESERT_EAGLE, ItemDefinition.DUAL_BERETTAS, ItemDefinition.GLOCK_18, ItemDefinition.P2000, ItemDefinition.USP_S, ItemDefinition.P250, ItemDefinition.TEC_9, ItemDefinition.FIVE_SEVEN, ItemDefinition.CZ75_AUTO, ItemDefinition.R8_REVOLVER } },
-        { "3", new List<ItemDefinition> { ItemDefinition.KNIFE_T, ItemDefinition.KNIFE_CT, ItemDefinition.KNIFE_GG, ItemDefinition.KNIFE_GHOST, ItemDefinition.BARE_HANDS, ItemDefinition.MEELE, ItemDefinition.AXE, ItemDefinition.HAMMER, ItemDefinition.WRENCH } },
-        { "4", new List<ItemDefinition> { ItemDefinition.HIGH_EXPLOSIVE_GRENADE, ItemDefinition.FLASHBANG, ItemDefinition.SMOKE_GRENADE, ItemDefinition.MOLOTOV, ItemDefinition.INCENDIARY_GRENADE, ItemDefinition.DEFUSE_KIT, ItemDefinition.RESCUE_KIT, ItemDefinition.HEALTHSHOT, ItemDefinition.MUSIC_KIT, ItemDefinition.HIGH_EXPLOSIVE_GRENADE, ItemDefinition.FIRE_BOMB, ItemDefinition.DIVERSION_DEVICE, ItemDefinition.FRAG_GRENADE, ItemDefinition.BUMP_MINE } },
-        { "5", new List<ItemDefinition> { ItemDefinition.C4_EXPLOSIVE, ItemDefinition.TABLET } }
-    };
+        Config = config;
+    }
 
     private Dictionary<ulong, int> _tries = new();
 
-    public override void Load(bool hotReload) { RegisterEventHandler<EventRoundStart>(OnRoundStart); }
+    public override void Load(bool hotReload)
+    {
+        RegisterEventHandler<EventRoundStart>(OnRoundStart);
+
+        RegisterListener<Listeners.OnMapStart>(_ =>
+        {
+            Server.PrecacheModel("weapons/w_eq_charge");
+        });
+    }
 
     [GameEventHandler(mode: HookMode.Post)]
     private HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)
@@ -108,26 +111,7 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
         if (Config.ShowCall)
             Server.PrintToChatAll($" {ChatColors.Red}[Medic] {ChatColors.Default}Player {ChatColors.Green}{activator.PlayerName}{ChatColors.Default} used medic and restore {ChatColors.Red}{total}hp");
         
-       
-        RefreshUi(activator, activator.PlayerPawn.Value!.WeaponServices!.ActiveWeapon.Value!.AttributeManager.Item.ItemDefinitionIndex);
-    }
-
-    private static void RefreshUi(CCSPlayerController client, ushort defIndex)
-    {
-        if (client.PlayerPawn.Value!.WeaponServices == null || client.PlayerPawn.Value!.ItemServices == null) return;
-        
-        client.GiveNamedItem(CsItem.BreachCharge);
-        
-        foreach (var weapon in client.PlayerPawn.Value!.WeaponServices.MyWeapons)
-        {
-            if (weapon.IsValid && weapon.Value != null && weapon.Value.IsValid &&
-                string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false &&
-                weapon.Value.DesignerName.Equals("weapon_breachcharge"))
-            {
-                weapon.Value.Remove();
-                client.ExecuteClientCommand("slot" + SlotByWeapon.FirstOrDefault(kv => kv.Value.Contains((ItemDefinition)defIndex)).Key);
-                break;
-            }
-        }
+        activator.GiveNamedItem(CsItem.BreachCharge);
+        activator.RemoveItemByDesignerName("weapon_breachcharge");
     }
 }
