@@ -10,12 +10,14 @@ Allows you to refill your health. A rewritten version of the [plugin](https://fo
 - Configuration file will be generated after the plugin is launched in the folder `addons/counterstrikesharp/configs/plugins/medic/medic.json`
 	
 ### medic.json
- - **MinHealth** - minimum HP, for the use of a medic
- - **Healthhealth** - HP that will be restored after use
- - **Cost** - the price of using a medic
- - **ShowCall** - show everyone in the chat that the player used a medic [true / false]
- - **MaxUse** - number of heal uses per round
- - **AccessFlag** - access flag for to use commands. Set empty to allow for all
+ - **MinHealth** - minimum HP, for the use of a medic [default: 40]
+ - **Healthhealth** - HP that will be restored after use [default: 100]
+ - **Cost** - the price of using a medic [default: 2000]
+ - **ShowCall** - show everyone in the chat that the player used a medic [default: true]
+ - **MaxUse** - number of heal uses per round [default: 2]
+ - **AccessFlag** - access flag for to use commands. Set empty to allow for all [default: @css/ban]
+ - **HealSuccessSound** - The path to the file being played after heal HP. Set empty for turn off this function [default: items/healthshot_success_01]
+ - **HealFailureSound** - The path to the file being played after failure heal HP. Set empty for turn off this function [default: buttons/blip2]
 
 ## About possible problems, please let me know: 
 [<img src="https://i.ibb.co/LJz83MH/a681b18dd681f38e599286a07a92225d.png" width="15.3%"/>](https://discordapp.com/users/858709381088935976/)
