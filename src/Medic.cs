@@ -26,8 +26,8 @@ public class ConfigGen : BasePluginConfig
 public class Medic : BasePlugin, IPluginConfig<ConfigGen>
 {
     public override string ModuleName => "Medic";
-    public override string ModuleVersion => "0.0.6";
-    public override string ModuleAuthor => "Quake1011";
+    public override string ModuleVersion => "0.0.7";
+    public override string ModuleAuthor => "Quake1011 and GSM-RO";
     public ConfigGen Config { get; set; } = null!;
 
     public void OnConfigParsed(ConfigGen config)
@@ -48,10 +48,14 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
     }
     
     [GameEventHandler(mode: HookMode.Post)]
-    private HookResult OnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
+private HookResult OnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
     {
-        if (!_tries.ContainsKey(@event.Userid.SteamID))
-            _tries.TryAdd(@event.Userid.SteamID, Config.MaxUse);
+        var player = @event.Userid;
+        if(!player.IsValid || player.IsBot)
+            return HookResult.Continue;
+        
+        if (!_tries.ContainsKey(player.SteamID))
+            _tries.Add(player.SteamID, Config.MaxUse);
 
         return HookResult.Continue;
     }
@@ -66,10 +70,8 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
         return HookResult.Continue;
     }
 
-    [ConsoleCommand("heal", "Heal player")]
+    [ConsoleCommand("medkit", "Heal player")]
     [ConsoleCommand("medic", "Heal player")]
-    [ConsoleCommand("doctor", "Heal player")]
-    [ConsoleCommand("hp", "Heal player")]
     [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
     public void OnCommand(CCSPlayerController? activator, CommandInfo command)
     {
