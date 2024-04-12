@@ -19,10 +19,3 @@ Allows you to refill your health. A rewritten version of the [plugin](https://fo
  - **HealSuccessSound** - The path to the file being played after heal HP. Set empty for turn off this function [default: items/healthshot_success_01]
  - **HealFailureSound** - The path to the file being played after failure heal HP. Set empty for turn off this function [default: buttons/blip2]
 
-## About possible problems, please let me know: 
-[<img src="https://i.ibb.co/LJz83MH/a681b18dd681f38e599286a07a92225d.png" width="15.3%"/>](https://discordapp.com/users/858709381088935976/)
-[<img src="https://i.ibb.co/tJTTmxP/vk-process-mining.png" width="15.3%"/>](https://vk.com/bgtroll)
-[<img src="https://i.ibb.co/VjhryGb/png-transparent-brand-logo-steam-gump-s.png" width="15.3%"/>](https://hlmod.ru/members/palonez.92448/)
-[<img src="https://i.ibb.co/xHZPN0g/s-l500.png" width="15.3%"/>](https://steamcommunity.com/id/comecamecame)
-[<img src="https://i.ibb.co/S0LyzmX/tg-process-mining.png" width="16.3%"/>](https://t.me/ArrayListX)
-[<img src="https://i.ibb.co/Tb2gprD/2056021.png" width="15.3%"/>](https://github.com/Quake1011)
