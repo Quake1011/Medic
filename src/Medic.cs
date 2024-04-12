@@ -26,7 +26,7 @@ public class ConfigGen : BasePluginConfig
 public class Medic : BasePlugin, IPluginConfig<ConfigGen>
 {
     public override string ModuleName => "Medic";
-    public override string ModuleVersion => "0.0.8";
+    public override string ModuleVersion => "0.0.9";
     public override string ModuleAuthor => "Quake1011 and GSM-RO";
     public ConfigGen Config { get; set; } = null!;
 
@@ -136,6 +136,7 @@ private HookResult OnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
             : activator.PlayerPawn.Value!.MaxHealth - activator.PlayerPawn.Value.Health;
 
         activator.PlayerPawn.Value.Health += total;
+        Utilities.SetStateChanged(activator.PlayerPawn.Value, "CBaseEntity", "m_iHealth");
         
         _tries[activator.SteamID]--;
 		
@@ -144,8 +145,8 @@ private HookResult OnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
         
         if(Config.HealSuccessSound != "")
             activator.ExecuteClientCommand($"play {Config.HealSuccessSound}");
-        
-        activator.GiveNamedItem(CsItem.BreachCharge);
-        activator.RemoveItemByDesignerName("weapon_breachcharge");
+
+                
+
     }
 }
