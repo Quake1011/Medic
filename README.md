@@ -3,7 +3,7 @@ Allows you to refill your health. A rewritten version of the [plugin](https://fo
 
 ## Requirements
 - [Metamod](https://www.sourcemm.net/downloads.php/?branch=master)
-- [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v129) >= v129(tested here and 100% working)
+- [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v129) >= v211(tested here and 100% working)
 
 ## Install
 - Move the contents of folder `build/` to `addons/counterstrikesharp/plugins/medic`
