@@ -42,7 +42,7 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
 {
     public override string ModuleName => "Medic";
     public override string ModuleVersion => "1.0";
-    public override string ModuleAuthor => "Quake1011 & panda.";
+    public override string ModuleAuthor => "Quake1011, GSM-RO & panda.";
     public ConfigGen Config { get; set; } = null!;
     private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name ?? "";
     private static readonly string CfgPath = Path.Combine(Server.GameDirectory, "csgo", "addons", "counterstrikesharp", "configs", "plugins", AssemblyName, $"{AssemblyName}.json");
