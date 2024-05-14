@@ -1,0 +1,9 @@
+{
+    "medic.AliveMsg": "{0} [default]You need be alive to use this command.",
+    "medic.NoAccess": "{0} [default]You don't have access to use this command.",
+    "medic.LimitReached": "{0} [default]Limit has been reached. Total: [red]|{1}|[default].",
+    "medic.NoMoney": "{0} [default]Not enough money to use medic. You need [red]|{1}$|[default].",
+    "medic.MinHealth": "{0} [default]You need [red]{1}HP [default]or less to use medic.",
+    "medic.FullHP": "{0} [default]You have [red]full HP [default]already.",
+    "medic.HealMsg": "{0} [default]Player [red]{1} [default]used medic([red]+{2}HP[default])."
+}
