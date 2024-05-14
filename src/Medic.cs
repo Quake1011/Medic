@@ -41,7 +41,7 @@ public class ConfigGen : BasePluginConfig
 public class Medic : BasePlugin, IPluginConfig<ConfigGen>
 {
     public override string ModuleName => "Medic";
-    public override string ModuleVersion => "1.0";
+    public override string ModuleVersion => "0.1";
     public override string ModuleAuthor => "Quake1011, GSM-RO & panda.";
     public ConfigGen Config { get; set; } = null!;
     private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name ?? "";
