@@ -3,13 +3,14 @@ Allows you to refill your health. A rewritten version of the [plugin](https://fo
 
 ## Requirements
 - [Metamod](https://www.sourcemm.net/downloads.php/?branch=master)
-- [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp/releases/tag/v129) >= v211(tested here and 100% working)
+- [CounterStrikeSharp](https://github.com/roflmuffin/CounterStrikeSharp/releases/) >= v233(tested here and 100% working)
 
 ## Install
 - Move the contents of folder `build/` to `addons/counterstrikesharp/plugins/medic`
 - Configuration file will be generated after the plugin is launched in the folder `addons/counterstrikesharp/configs/plugins/medic/medic.json`
 	
 ### medic.json
+ - **PluginTag** - chat tag of the plugin
  - **MinHealth** - minimum HP, for the use of a medic [default: 40]
  - **Healthhealth** - HP that will be restored after use [default: 100]
  - **Cost** - the price of using a medic [default: 2000]
