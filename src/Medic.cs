@@ -16,7 +16,7 @@ namespace medic;
 public class ConfigGen : BasePluginConfig
 {
     [JsonPropertyName("PluginTag")] 
-    public string PluginTag { get; init; } = " [red][Medic]";
+    public string PluginTag { get; init; } = " {red}[Medic]";
     [JsonPropertyName("MinHealth")] 
     public int MinHealth { get; init; } = 40;
     [JsonPropertyName("HealHealth")] 
@@ -34,14 +34,14 @@ public class ConfigGen : BasePluginConfig
     [JsonPropertyName("HealFailureSound")] 
     public string HealFailureSound { get; init; } = "buttons/blip2";
     [JsonPropertyName("ConfigVersion")]
-    public override int Version { get; set; } = 2;
+    public override int Version { get; set; } = 3;
 }
 
 [MinimumApiVersion(225)]
 public class Medic : BasePlugin, IPluginConfig<ConfigGen>
 {
     public override string ModuleName => "Medic";
-    public override string ModuleVersion => "0.1";
+    public override string ModuleVersion => "0.1.1";
     public override string ModuleAuthor => "Quake1011, GSM-RO & panda.";
     public ConfigGen Config { get; set; } = null!;
     private static readonly string AssemblyName = Assembly.GetExecutingAssembly().GetName().Name ?? "";
@@ -69,31 +69,37 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
     }
     private static readonly Dictionary<string, char> ColorMap = new Dictionary<string, char>
     {
-        { "[default]", ChatColors.Default },
-        { "[white]", ChatColors.White },
-        { "[darkred]", ChatColors.DarkRed },
-        { "[green]", ChatColors.Green },
-        { "[lightyellow]", ChatColors.LightYellow },
-        { "[lightblue]", ChatColors.LightBlue },
-        { "[olive]", ChatColors.Olive },
-        { "[lime]", ChatColors.Lime },
-        { "[red]", ChatColors.Red },
-        { "[lightpurple]", ChatColors.LightPurple },
-        { "[purple]", ChatColors.Purple },
-        { "[grey]", ChatColors.Grey },
-        { "[yellow]", ChatColors.Yellow },
-        { "[gold]", ChatColors.Gold },
-        { "[silver]", ChatColors.Silver },
-        { "[blue]", ChatColors.Blue },
-        { "[darkblue]", ChatColors.DarkBlue },
-        { "[bluegrey]", ChatColors.BlueGrey },
-        { "[magenta]", ChatColors.Magenta },
-        { "[lightred]", ChatColors.LightRed },
-        { "[orange]", ChatColors.Orange }
+        { "{default}", ChatColors.Default },
+        { "{white}", ChatColors.White },
+        { "{darkred}", ChatColors.DarkRed },
+        { "{green}", ChatColors.Green },
+        { "{lightyellow}", ChatColors.LightYellow },
+        { "{lightblue}", ChatColors.LightBlue },
+        { "{olive}", ChatColors.Olive },
+        { "{lime}", ChatColors.Lime },
+        { "{red}", ChatColors.Red },
+        { "{lightpurple}", ChatColors.LightPurple },
+        { "{purple}", ChatColors.Purple },
+        { "{grey}", ChatColors.Grey },
+        { "{yellow}", ChatColors.Yellow },
+        { "{gold}", ChatColors.Gold },
+        { "{silver}", ChatColors.Silver },
+        { "{blue}", ChatColors.Blue },
+        { "{darkblue}", ChatColors.DarkBlue },
+        { "{bluegrey}", ChatColors.BlueGrey },
+        { "{magenta}", ChatColors.Magenta },
+        { "{lightred}", ChatColors.LightRed },
+        { "{orange}", ChatColors.Orange }
     };
-
+    
     private string ReplaceColorPlaceholders(string message)
     {
+        
+        if (!string.IsNullOrEmpty(message) && message[0] != ' ')
+        {
+            message = " " + message;
+        }
+        
         foreach (var colorPlaceholder in ColorMap)
         {
             message = message.Replace(colorPlaceholder.Key, colorPlaceholder.Value.ToString());
@@ -113,6 +119,8 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
     {
         RegisterEventHandler<EventRoundStart>(OnRoundStart);
         RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
+        
+        RegisterCommands();
 
         RegisterListener<Listeners.OnMapStart>(_ =>
         {
@@ -144,12 +152,26 @@ public class Medic : BasePlugin, IPluginConfig<ConfigGen>
 
         return HookResult.Continue;
     }
+    
+    private void RegisterCommands()
+    {
+        AddCommand($"css_medic", "Heal player", (player, info) =>
+        {
+            OnCommandMedic(player, info);
+        });
+        
+        AddCommand($"css_medkit", "Heal player", (player, info) =>
+        {
+            OnCommandMedic(player, info);
+        });
 
-    [ConsoleCommand("css_medkit", "Heal player")]
-    [ConsoleCommand("css_medic", "Heal player")]
-    [ConsoleCommand("css_doctor", "Heal player")]
-    [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
-    public void OnCommand(CCSPlayerController? player, CommandInfo info)
+        AddCommand($"css_doctor", "Heal player", (player, info) =>
+        {
+            OnCommandMedic(player, info);
+        });
+    }
+    
+    private void OnCommandMedic(CCSPlayerController? player, CommandInfo info)
     {
         if (player == null) 
 			return;
